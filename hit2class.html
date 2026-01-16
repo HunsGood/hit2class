@@ -207,6 +207,88 @@
             }
         }
     </style>
+    <style>
+        :root {
+            --bg-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --body-bg-color: #f0f2f5;
+            --container-bg-color: white;
+            --text-color: #333;
+            --subtext-color: #666;
+            --border-color: #ddd;
+            --hover-bg-color: #f5f5f5;
+            --header-bg-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --header-text-color: white;
+            --input-border-color: #ddd;
+            --input-focus-border-color: #667eea;
+        }
+
+        body.dark-mode {
+            --bg-color: #1a1a2e;
+            --body-bg-color: #16213e;
+            --container-bg-color: #1f2940;
+            --text-color: #e0e0e0;
+            --subtext-color: #a0a0a0;
+            --border-color: #3a476a;
+            --hover-bg-color: #2a3452;
+            --header-bg-color: linear-gradient(135deg, #3c4a8a 0%, #513a7a 100%);
+            --header-text-color: #e0e0e0;
+            --input-border-color: #3a476a;
+            --input-focus-border-color: #5c7eeb;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            background: var(--container-bg-color);
+        }
+
+        h1 {
+            color: var(--text-color);
+        }
+
+        .status {
+            color: var(--subtext-color);
+        }
+
+        .status.connected {
+            color: #4CAF50;
+        }
+
+        .status.error {
+            color: #f44336;
+        }
+
+        th, td {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--header-bg-color);
+            color: var(--header-text-color);
+        }
+        
+        tr:hover {
+            background: var(--hover-bg-color);
+        }
+
+        input[type="text"], input[type="number"] {
+            background-color: var(--container-bg-color);
+            border: 2px solid var(--input-border-color);
+            color: var(--text-color);
+        }
+
+        input:focus {
+            border-color: var(--input-focus-border-color);
+        }
+
+        #theme-toggle {
+            background: var(--subtext-color);
+            color: var(--container-bg-color);
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -214,6 +296,7 @@
         
         <div class="controls">
             <button class="btn btn-add" onclick="addRow()" id="addBtn">➕ 새 캐릭터 추가</button>
+            <button id="theme-toggle" class="btn">🌙</button>
             <div class="status" id="statusMsg">연결 중...</div>
         </div>
 
@@ -459,6 +542,31 @@
 
         // 페이지 로드 시 데이터 불러오기
         loadData();
+
+        // 테마 스위칭 기능
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                body.classList.add('dark-mode');
+                themeToggle.textContent = '☀️';
+            } else {
+                body.classList.remove('dark-mode');
+                themeToggle.textContent = '🌙';
+            }
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const isDarkMode = body.classList.toggle('dark-mode');
+            const theme = isDarkMode ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+            applyTheme(theme);
+        });
+
+        // 페이지 로드 시 저장된 테마 확인
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        applyTheme(savedTheme);
     </script>
 </body>
 </html>
