@@ -197,13 +197,80 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
             .container {
                 padding: 15px;
             }
 
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
             th, td {
-                padding: 10px 5px;
-                font-size: 12px;
+                padding: 10px 8px;
+                font-size: 13px;
+            }
+
+            .btn {
+                padding: 12px 15px;
+            }
+
+            .actions .btn {
+                padding: 8px 10px;
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+            tr {
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                margin-bottom: 15px;
+            }
+
+            td {
+                border: none;
+                border-bottom: 1px dotted var(--border-color);
+                position: relative;
+                padding-left: 50%;
+                text-align: right;
+                white-space: normal;
+            }
+
+            td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+            
+            td:last-child {
+                border-bottom: none;
+                text-align: center;
+                padding-left: 15px;
             }
         }
     </style>
@@ -435,11 +502,11 @@
             data.forEach((item, index) => {
                 const row = tbody.insertRow();
                 row.innerHTML = `
-                    <td>${item.id}</td>
-                    <td><span class="view-mode">${item.name}</span><input type="text" class="edit-mode" style="display:none" value="${item.name}"></td>
-                    <td><span class="view-mode">${item.lv}</span><input type="number" class="edit-mode" style="display:none" value="${item.lv}"></td>
-                    <td><span class="view-mode">${item.skill}</span><input type="text" class="edit-mode" style="display:none" value="${item.skill}"></td>
-                    <td class="actions">
+                    <td data-label="ID">${item.id}</td>
+                    <td data-label="Name"><span class="view-mode">${item.name}</span><input type="text" class="edit-mode" style="display:none" value="${item.name}"></td>
+                    <td data-label="LV"><span class="view-mode">${item.lv}</span><input type="number" class="edit-mode" style="display:none" value="${item.lv}"></td>
+                    <td data-label="Skill"><span class="view-mode">${item.skill}</span><input type="text" class="edit-mode" style="display:none" value="${item.skill}"></td>
+                    <td class="actions" data-label="Actions">
                         <button class="btn-edit view-mode" onclick="editRow(${index})">수정</button>
                         <button class="btn-delete view-mode" onclick="deleteRow(${index})">삭제</button>
                         <button class="btn-save edit-mode" style="display:none" onclick="saveRow(${index})">저장</button>
