@@ -83,13 +83,20 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            table-layout: fixed;
         }
 
         th, td {
-            padding: 15px;
+            padding: 20px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
+
+        th:nth-child(1), td:nth-child(1) { width: 10%; }
+        th:nth-child(2), td:nth-child(2) { width: 30%; }
+        th:nth-child(3), td:nth-child(3) { width: 10%; }
+        th:nth-child(4), td:nth-child(4) { width: 30%; }
+        th:nth-child(5), td:nth-child(5) { width: 20%; }
 
         th {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -370,10 +377,10 @@
         <table id="characterTable">
             <thead>
                 <tr>
-                    <th onclick="sortTable('id')" class="sortable">ID</th>
-                    <th onclick="sortTable('name')" class="sortable">Name</th>
+                    <th onclick="sortTable('id')" class="sortable">순번</th>
+                    <th onclick="sortTable('name')" class="sortable">닉네임</th>
                     <th onclick="sortTable('lv')" class="sortable">LV</th>
-                    <th onclick="sortTable('skill')" class="sortable">Skill</th>
+                    <th onclick="sortTable('skill')" class="sortable">배우지 않은 스킬</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -502,10 +509,10 @@
             data.forEach((item, index) => {
                 const row = tbody.insertRow();
                 row.innerHTML = `
-                    <td data-label="ID">${item.id}</td>
-                    <td data-label="Name"><span class="view-mode">${item.name}</span><input type="text" class="edit-mode" style="display:none" value="${item.name}"></td>
-                    <td data-label="LV"><span class="view-mode">${item.lv}</span><input type="number" class="edit-mode" style="display:none" value="${item.lv}"></td>
-                    <td data-label="Skill"><span class="view-mode">${item.skill}</span><input type="text" class="edit-mode" style="display:none" value="${item.skill}"></td>
+                    <td data-label="순번">${item.id}</td>
+                    <td data-label="닉네임"><span class="view-mode">${item.name}</span><input type="text" class="edit-mode" style="display:none" value="${item.name}"></td>
+                    <td data-label="LV"><span class="view--mode">${item.lv}</span><input type="number" class="edit-mode" style="display:none" value="${item.lv}"></td>
+                    <td data-label="배우지 않은 스킬"><span class="view-mode">${item.skill}</span><input type="text" class="edit-mode" style="display:none" value="${item.skill}"></td>
                     <td class="actions" data-label="Actions">
                         <button class="btn-edit view-mode" onclick="editRow(${index})">수정</button>
                         <button class="btn-delete view-mode" onclick="deleteRow(${index})">삭제</button>
@@ -518,13 +525,13 @@
 
         // 새 행 추가
         async function addRow() {
-            const name = prompt('캐릭터 이름:');
+            const name = prompt('닉네임:');
             if (!name) return;
             
             const lv = parseInt(prompt('레벨:', '1'));
             if (isNaN(lv)) return;
             
-            const skill = prompt('스킬:');
+            const skill = prompt('배우지 않은 스킬:');
             if (!skill) return;
 
             try {
